@@ -10,8 +10,10 @@ def index():
 def submit():
     if request.method == 'POST':
         date = request.form['date']
-        start_time = request.form['start_time']
-        end_time = request.form['end_time']
+        start_hour = request.form['start_hour']
+        start_minute = request.form['start_minute']
+        end_hour = request.form['end_hour']
+        end_minute = request.form['end_minute']
         location = request.form['location']
 
         data = {'message': 'success'}
