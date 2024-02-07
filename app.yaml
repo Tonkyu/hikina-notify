@@ -1,7 +1,7 @@
 runtime: python37
 env: standard
-service: hikina-notify
-entrypoint: gunicorn -b :$PORT main:app
+service: default
+entrypoint: gunicorn -b :$PORT run:app
 
 automatic_scaling:
   min_idle_instances: automatic
