@@ -23,14 +23,16 @@ def connect_db():
         );
     '''
 
-    connection = psycopg2.connect(**conn_params)
+    DATABASE_URL = os.environ['DATABASE_URL']
+
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     try:
         # PostgreSQLデータベースに接続
-        cursor = connection.cursor()
+        cursor = conn.cursor()
 
         # テーブルを作成
         cursor.execute(create_table_query)
-        connection.commit()
+        conn.commit()
         print("テーブルが作成されました")
 
     except (Exception, Error) as error:
@@ -38,9 +40,9 @@ def connect_db():
 
     finally:
         # 接続を閉じる
-        if connection:
+        if conn:
             cursor.close()
-            connection.close()
+            conn.close()
             print("接続が閉じられました")
 
 def create_app():
