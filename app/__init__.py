@@ -7,6 +7,7 @@ from .submit import bp as submit_bp
 from .edit import bp as edit_bp
 from .delete import bp as delete_bp
 from .update import bp as update_bp
+from .announce import bp as announce_bp
 from util import connect_db
 
 def create_app():
@@ -19,6 +20,7 @@ def create_app():
     app.register_blueprint(edit_bp)
     app.register_blueprint(delete_bp)
     app.register_blueprint(update_bp)
+    app.register_blueprint(announce_bp)
 
     connect_db.connect_db()
 

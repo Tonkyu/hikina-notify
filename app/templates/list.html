@@ -3,14 +3,13 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="text-center">練習日程一覧</h1>
+    <h1 class="text-center">日程一覧</h1>
     <div class="row justify-content-center">
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">日付</th>
-                    <th scope="col">開始</th>
-                    <th scope="col">終了</th>
+                    <th scope="col">時間</th>
                     <th scope="col">場所</th>
                     <th scope="col">告知</th>
                     <th scope="col">編集</th>
@@ -20,8 +19,7 @@
                 {% for row in data %}
                     <tr>
                         <td>{{ row[1] }}</td>
-                        <td>{{ row[2] }}</td>
-                        <td>{{ row[3] }}</td>
+                        <td>{{ row[2] }} ~ {{ row[3] }}</td>
                         <td>{{ row[4] }}</td>
                         <td>
                             {% if row[5] %}
