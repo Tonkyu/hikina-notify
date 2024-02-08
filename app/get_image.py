@@ -1,5 +1,3 @@
-# app/routes1.py
-
 from flask import Blueprint, send_file, request
 import os
 
