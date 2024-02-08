@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+{% block title %}登録{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">イベント登録</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form id="event-form" action="/submit" method="post" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label for="date">日付:</label><br>
+                    <input type="date" id="date" name="date" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>開始時間:</label><br>
+                    <div class="row">
+                        <div class="col">
+                            <select id="start_hour" name="start_hour" class="form-control">
+                                {% for hour in range(0, 24) %}
+                                    <option value="{{ hour }}">{{ hour }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <p>:</p>
+                        <div class="col">
+                            <select id="start_minute" name="start_minute" class="form-control">
+                                {% for minute in range(0, 60, 5) %}
+                                    <option value="{{ minute }}">{{ minute }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>終了時間:</label><br>
+                    <div class="row">
+                        <div class="col">
+                            <select id="end_hour" name="end_hour" class="form-control">
+                                {% for hour in range(0, 24) %}
+                                    <option value="{{ hour }}">{{ hour }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <p>:</p>
+                        <div class="col">
+                            <select id="end_minute" name="end_minute" class="form-control">
+                                {% for minute in range(0, 60, 5) %}
+                                    <option value="{{ minute }}">{{ minute }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="location">場所:</label><br>
+                    <input type="text" id="location" name="location" class="form-control">
+                </div>
+                <div class="form-group text-center">
+                    <button type="button" class="btn btn-primary" onclick="submitForm()">送信</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap DatePicker JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const todayString = `${year}-${month}-${day}`;
+        document.getElementById("date").value = todayString;
+    });
+
+    function validateForm() {
+        const dateInput = document.getElementById("date");
+        const dateValue = dateInput.value;
+
+        const parts = dateValue.split("-");
+        const year = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        const day = parseInt(parts[2], 10);
+        const dateObject = new Date(year, month, day);
+
+        if (dateObject.getFullYear() !== year || dateObject.getMonth() !== month || dateObject.getDate() !== day) {
+            alert("存在しない日付です");
+            return false;
+        } else {
+            return true
+        }
+    }
+
+    function submitForm() {
+        event.preventDefault();
+        var form = document.getElementById('event-form');
+        form.submit();
+    }
+
+</script>
+{% endblock %}

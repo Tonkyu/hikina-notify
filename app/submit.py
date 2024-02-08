@@ -1,13 +1,9 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, request, jsonify, redirect, url_for
 from psycopg2 import Error
 from util import connect_db
 from datetime import datetime
 
-bp = Blueprint('routes', __name__)
-
-@bp.route('/', methods=['GET'])
-def index():
-    return render_template('form.html')
+bp = Blueprint('submit', __name__)
 
 @bp.route('/submit', methods=['POST'])
 def submit():
@@ -32,9 +28,7 @@ def submit():
             cursor = conn.cursor()
             cursor.execute(insert_query, (start_datetime, end_datetime, location))
             conn.commit()
-
-            data = {'message': 'success'}
-            return jsonify(data), 200
+            return redirect(url_for('list.list'))
 
         except (Exception, Error) as error:
             print("error occurred in /submit(POST):", error)
@@ -45,4 +39,3 @@ def submit():
             if conn:
                 cursor.close()
                 conn.close()
-                print("closed connection")
