@@ -32,7 +32,7 @@
                             <p>:</p>
                             <div class="col">
                                 <select id="start_minute" name="start_minute" class="form-control">
-                                    {% for minute in range(0, 60) %}
+                                    {% for minute in range(0, 60, 5) %}
                                         <option value="{{ minute }}">{{ minute }}</option>
                                     {% endfor %}
                                 </select>

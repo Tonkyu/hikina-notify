@@ -23,25 +23,25 @@ def connect_db():
         );
     '''
 
-    connection = psycopg2.connect(**conn_params)
-    try:
-        # PostgreSQLデータベースに接続
-        cursor = connection.cursor()
+    # connection = psycopg2.connect(**conn_params)
+    # try:
+    #     # PostgreSQLデータベースに接続
+    #     cursor = connection.cursor()
 
-        # テーブルを作成
-        cursor.execute(create_table_query)
-        connection.commit()
-        print("テーブルが作成されました")
+    #     # テーブルを作成
+    #     cursor.execute(create_table_query)
+    #     connection.commit()
+    #     print("テーブルが作成されました")
 
-    except (Exception, Error) as error:
-        print("エラーが発生しました:", error)
+    # except (Exception, Error) as error:
+    #     print("エラーが発生しました:", error)
 
-    finally:
-        # 接続を閉じる
-        if connection:
-            cursor.close()
-            connection.close()
-            print("接続が閉じられました")
+    # finally:
+    #     # 接続を閉じる
+    #     if connection:
+    #         cursor.close()
+    #         connection.close()
+    #         print("接続が閉じられました")
 
 def create_app():
     app = Flask(__name__)
