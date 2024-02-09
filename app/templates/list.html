@@ -13,7 +13,6 @@
                     <th scope="col">場所</th>
                     <th scope="col">告知</th>
                     <th scope="col">編集</th>
-                    <th scope="col">送信</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,7 +29,6 @@
                             {% endif %}
                         </td>
                         <td><a href="{{ url_for('edit.edit', id=row[0]) }}">編集</a></td>
-                        <td><a href="{{ url_for('announce.announce') }}">送信</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

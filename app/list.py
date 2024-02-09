@@ -16,7 +16,7 @@ def get_data():
     conn = connect_db.connect_db()
     try:
         cursor = conn.cursor()
-        query = 'SELECT * FROM practices ORDER BY start_datetime'
+        query = 'SELECT * FROM practices ORDER BY start_datetime DESC'
         cursor.execute(query)
         data = cursor.fetchall()
         conn.close()

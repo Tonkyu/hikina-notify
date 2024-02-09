@@ -1,9 +1,8 @@
 from flask import url_for
 
 def create_message(alt_title, title, content, img_name):
-    base_url = 'https://hikina-notify-b57d379fe0b0.herokuapp.com/'
+    base_url = 'https://hikina-notify-b57d379fe0b0.herokuapp.com'
     img_url = base_url + url_for('static', filename=f'img/{img_name}')
-    print(img_url)
     return {
             "type": "flex",
             "altText": alt_title,

@@ -5,7 +5,7 @@ from psycopg2 import Error
 from util import connect_db, create_image, create_message
 from datetime import datetime, timedelta
 from linebot import LineBotApi
-from linebot.models import FlexSendMessage
+from linebot.models import FlexSendMessage, TextSendMessage
 
 bp = Blueprint('announce', __name__)
 
@@ -14,7 +14,7 @@ bp = Blueprint('announce', __name__)
 def announce():
     load_dotenv()
     ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
-    HIKINA_LINE_ID = os.environ['TONQ_USER_ID']
+    HIKINA_LINE_ID = os.environ['TONQ_GROUP_ID']
     line_bot_api = LineBotApi(ACCESS_TOKEN)
 
     def post_to_line(alt_title, title, content, img_name):
@@ -26,11 +26,11 @@ def announce():
         )
 
     today = datetime.now().date()
-    tomorrow = today + timedelta(days=3)
-    print(tomorrow)
+    tomorrow = today + timedelta(days=1)
+    two_days_after = today + timedelta(days=2)
     get_practice_query = f'''
         SELECT * FROM practices
-        WHERE start_datetime <= '{tomorrow}' AND NOT has_announced;
+        WHERE '{tomorrow}' <= start_datetime AND start_datetime < '{two_days_after}' AND NOT has_announced;
     '''
     announce_query = '''
         UPDATE practices
