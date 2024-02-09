@@ -12,6 +12,7 @@ from util import connect_db
 
 def create_app():
     app = Flask(__name__)
+    app.static_folder = '../static'
 
     app.register_blueprint(register_bp)
     app.register_blueprint(get_image_bp)

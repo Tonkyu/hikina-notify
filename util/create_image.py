@@ -10,6 +10,6 @@ def create_image(data):
 
     # create and save image
 
-    image_path = '../img/hikina.jpg'
-    image_name = "hikina.jpg"
+    image_path = '../static/img/hikina.jpg'
+    image_name = 'hikina.jpg'
     return image_name
