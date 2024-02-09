@@ -1,7 +1,10 @@
 from flask import url_for
+from dotenv import load_dotenv
+import os
 
 def create_message(alt_title, title, content, img_name):
-    base_url = 'https://hikina-notify-b57d379fe0b0.herokuapp.com'
+    load_dotenv()
+    base_url = os.environ['BASE_URL']
     img_url = base_url + url_for('static', filename=f'img/{img_name}')
     return {
             "type": "flex",
