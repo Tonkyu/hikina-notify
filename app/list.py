@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 from psycopg2 import Error
 from datetime import datetime
 
@@ -12,11 +12,19 @@ def format_date(date_obj):
 def format_time(date_obj):
     return date_obj.strftime("%H:%M")
 
-def get_data():
+def get_data(show_past_bool):
     conn = connect_db.connect_db()
     try:
         cursor = conn.cursor()
-        query = 'SELECT * FROM practices ORDER BY start_datetime DESC'
+        today = datetime.now().date()
+        query = f'''
+            SELECT * FROM practices
+            ORDER BY start_datetime
+        ''' if show_past_bool else f'''
+            SELECT * FROM practices
+            WHERE start_datetime >= '{today}'
+            ORDER BY start_datetime
+        '''
         cursor.execute(query)
         data = cursor.fetchall()
         conn.close()
@@ -39,7 +47,9 @@ def get_data():
             cursor.close()
             conn.close()
 
-@bp.route('/list')
+@bp.route('/list/')
 def list():
-    data = get_data()
-    return render_template('list.html', data=data, active_menu='list')
+    show_past = request.args.get('show_past', default='false')
+    show_past_bool = show_past != 'false'
+    data = get_data(show_past_bool)
+    return render_template('list.html', data=data, active_menu='list', show_past=show_past)

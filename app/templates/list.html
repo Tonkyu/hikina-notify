@@ -4,6 +4,13 @@
 {% block content %}
 <div class="container mt-5">
     <h1 class="text-center">日程一覧</h1>
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+        {% if show_past == 'true' %}
+            <a href="{{ url_for('list.list')}}">過去の日程を隠す</a>
+        {% else %}
+            <a href="{{ url_for('list.list', show_past='true')}}">過去の日程を表示</a>
+        {% endif %}
+    </div>
     <div class="row justify-content-center">
         <table class="table">
             <thead>
