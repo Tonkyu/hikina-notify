@@ -2,6 +2,25 @@
 {% block title %}一覧{% endblock %}
 
 {% block content %}
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    .highlight {
+        background-color: #aaaaaa;
+    }
+    tr.even {
+        background-color: #f2f2f2;
+    }
+</style>
+
 <div class="container mt-5">
     <h1 class="text-center">日程一覧</h1>
     <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
@@ -23,8 +42,8 @@
                 </tr>
             </thead>
             <tbody>
-                {% for row in data %}
-                    <tr>
+                {% for id, row in data %}
+                <tr class="{{ 'highlight' if row[5] else 'even' if id%2==0 else '' }}">
                         <td>{{ row[1] }}</td>
                         <td>{{ row[2] }} ~ {{ row[3] }}</td>
                         <td>{{ row[4] }}</td>
@@ -35,7 +54,7 @@
                                 未
                             {% endif %}
                         </td>
-                        <td><a href="{{ url_for('edit.edit', id=row[0]) }}">編集</a></td>
+                        <td><a href="{{ url_for('edit.edit', id=row[0]) }}"><u>編集</u></a></td>
                     </tr>
                 {% endfor %}
             </tbody>

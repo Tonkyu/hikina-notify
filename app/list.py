@@ -52,4 +52,5 @@ def list():
     show_past = request.args.get('show_past', default='false')
     show_past_bool = show_past != 'false'
     data = get_data(show_past_bool)
-    return render_template('list.html', data=data, active_menu='list', show_past=show_past)
+    data_with_id = [(id, row) for id, row in enumerate(data)]
+    return render_template('list.html', data=data_with_id, active_menu='list', show_past=show_past)
