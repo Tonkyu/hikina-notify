@@ -1,31 +1,65 @@
-from flask import Blueprint, request, jsonify, redirect, url_for
+from flask import Blueprint, jsonify
+from dotenv import load_dotenv
+import os
 from psycopg2 import Error
-from util import connect_db
+from util import connect_db, create_image, create_message
 from datetime import datetime, timedelta
+from linebot import LineBotApi
+from linebot.models import FlexSendMessage
 
 bp = Blueprint('announce', __name__)
 
+
 @bp.route('/announce')
 def announce():
+    load_dotenv()
+    ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
+    HIKINA_LINE_ID = os.environ['TONQ_USER_ID']
+    line_bot_api = LineBotApi(ACCESS_TOKEN)
+
+    def post_to_line(alt_title, title, content, img_name):
+        payload = create_message.create_message(alt_title, title, content, img_name)
+        container_obj = FlexSendMessage.new_from_json_dict(payload)
+        line_bot_api.push_message(
+            HIKINA_LINE_ID,
+            messages=container_obj
+        )
+
     today = datetime.now().date()
-    two_days_after = today + timedelta(days=2)
+    tomorrow = today + timedelta(days=3)
+    print(tomorrow)
+    get_practice_query = f'''
+        SELECT * FROM practices
+        WHERE start_datetime <= '{tomorrow}' AND NOT has_announced;
+    '''
     announce_query = '''
         UPDATE practices
         SET has_announced = TRUE
-        WHERE start_datetime < %s;
+        WHERE id = %s;
     '''
 
     conn = connect_db.connect_db()
     try:
-        cursor = conn.cursor()
-        cursor.execute(announce_query, (two_days_after))
-        conn.commit()
+        while True:
+            cursor = conn.cursor()
+            cursor.execute(get_practice_query)
+            res = cursor.fetchone()
+            if res == None:
+                break
+            id = res[0]
+            cursor.execute(announce_query, (id,))
+            conn.commit()
+            alt_title = '練習会 参加調査'
+            title = '【練習会 参加調査】'
+            content = '明日は練習会です。\n参加できる方はこのメッセージに\nリアクションをお願いします！'
+            img_name = create_image.create_image(res)
+            post_to_line(alt_title, title, content, img_name)
         data = {'message': 'success'}
         return jsonify(data), 200
 
 
     except (Exception, Error) as error:
-        print("error occurred in /update(POST):", error)
+        print("error occurred in /announce(POST):", error)
         data = {'message': 'failed'}
         return jsonify(data), 503
 
