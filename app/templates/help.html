@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}ヘルプ{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .help-content {
+        max-width: 800px;
+        margin: auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    p {
+        font-size: 16px;
+        color: #666;
+        line-height: 1.6;
+    }
+    @media (max-width: 768px) {
+        .container {
+            padding: 10px;
+            max-width: 100%;
+        }
+        h1 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 14px;
+        }
+    }
+</style>
+
+<div class="help-content">
+    <h1 class="text-center">ヘルプ</h1>
+    <p>このサイトは、ヒキナの練習日程を登録し、グループLINEに告知を送るために用います。</p>
+    <p>「登録」ページで、練習日程を追加します。</p>
+    <p>「一覧」ページで、追加された日程を確認できます。編集リンクから編集もできます。</p>
+    <p>登録された練習日程は、前日のお昼12時になると告知メッセージがヒキナのグループLINEに送信されます。</p>
+    <p>認証のIDとパスワードを知っていると誰でも編集できてしまうので、管理には気をつけてください。</p>
+    <p>認証情報を変更したい、バグが出る、その他仕様の要望は2期の中根(tontonkyu⭐️gmail.com, ⭐️は@に)まで。</p>
+</div>
+
+{% endblock %}
