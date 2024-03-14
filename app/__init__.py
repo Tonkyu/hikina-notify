@@ -25,6 +25,5 @@ def create_app():
     app.register_blueprint(announce_bp)
     app.register_blueprint(help_bp)
 
-    # connect_db.connect_db()
-
+    connect_db.connect_db()
     return app

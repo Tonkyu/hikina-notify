@@ -1,5 +1,6 @@
 gunicorn
 Flask
+Flask-HTTPAuth
 psycopg2
 python-dotenv
 line-bot-sdk

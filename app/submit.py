@@ -2,10 +2,13 @@ from flask import Blueprint, request, jsonify, redirect, url_for
 from psycopg2 import Error
 from util import connect_db
 from datetime import datetime
+from util.basic_auth import auth
+
 
 bp = Blueprint('submit', __name__)
 
 @bp.route('/submit', methods=['POST'])
+@auth.login_required
 def submit():
     if request.method == 'POST':
         date = request.form['date']

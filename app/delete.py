@@ -1,10 +1,12 @@
 from flask import Blueprint, request, jsonify, redirect, url_for
 from psycopg2 import Error
 from util import connect_db
+from util.basic_auth import auth
 
 bp = Blueprint('delete', __name__)
 
 @bp.route('/delete/<int:id>', methods=['POST'])
+@auth.login_required
 def delete(id):
     if request.method == 'POST':
         delete_query = f'''

@@ -3,14 +3,16 @@ from dotenv import load_dotenv
 import os
 from psycopg2 import Error
 from util import connect_db, create_image, create_message
+from util.basic_auth import auth
 from datetime import datetime, timedelta
 from linebot import LineBotApi
-from linebot.models import FlexSendMessage, TextSendMessage
+from linebot.models import FlexSendMessage
 
 bp = Blueprint('announce', __name__)
 
 
-@bp.route('/announce')
+@bp.route('/announce', methods=['POST'])
+@auth.login_required
 def announce():
     load_dotenv()
     ACCESS_TOKEN = os.environ['ACCESS_TOKEN']

@@ -2,6 +2,7 @@ from flask import Blueprint, render_template
 from psycopg2 import Error
 
 from util import connect_db
+from util.basic_auth import auth
 
 bp = Blueprint('edit', __name__)
 
@@ -42,6 +43,7 @@ def get_data_by_id(id):
             conn.close()
 
 @bp.route('/edit/<int:id>')
+@auth.login_required
 def edit(id):
     data = get_data_by_id(id)
     return render_template('edit.html', data=data)

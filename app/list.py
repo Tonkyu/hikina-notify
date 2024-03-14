@@ -3,6 +3,7 @@ from psycopg2 import Error
 from datetime import datetime
 
 from util import connect_db
+from util.basic_auth import auth
 
 bp = Blueprint('list', __name__)
 
@@ -48,6 +49,7 @@ def get_data(show_past_bool):
             conn.close()
 
 @bp.route('/list/')
+@auth.login_required
 def list():
     show_past = request.args.get('show_past', default='false')
     show_past_bool = show_past != 'false'
