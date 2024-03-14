@@ -12,6 +12,7 @@ from linebot.models import FlexSendMessage
 def from_self_only(f):
     def decorated_function(*args, **kwargs):
         client_ip = request.remote_addr
+        print(client_ip)
         if client_ip != '127.0.0.1':
             abort(403)
         return f(*args, **kwargs)
