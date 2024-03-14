@@ -9,19 +9,20 @@ from linebot import LineBotApi
 from linebot.models import FlexSendMessage
 
 
-def from_self_only(f):
+def auth_token(f):
     def decorated_function(*args, **kwargs):
         load_dotenv()
         token = request.headers.get('Authorization', '').split(' ')[-1]
         if token != os.environ['CRON_TOKEN']:
-            abort(403)
+            abort(401)
         return f(*args, **kwargs)
     return decorated_function
 
 bp = Blueprint('announce', __name__)
 
+
 @bp.route('/announce')
-@from_self_only
+@auth_token
 def announce():
     load_dotenv()
     ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
