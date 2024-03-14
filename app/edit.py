@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template
 from psycopg2 import Error
 
-from util import connect_db
-from util.basic_auth import auth
+from .util import connect_db
+from .util.basic_auth import auth
 
 bp = Blueprint('edit', __name__)
 

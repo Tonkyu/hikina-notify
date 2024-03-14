@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, request
 from psycopg2 import Error
 from datetime import datetime
 
-from util import connect_db
-from util.basic_auth import auth
+from .util import connect_db
+from .util.basic_auth import auth
 
 bp = Blueprint('list', __name__)
 

@@ -2,8 +2,8 @@ from flask import Blueprint, jsonify, request, abort
 from dotenv import load_dotenv
 import os
 from psycopg2 import Error
-from util import connect_db, create_image, create_message
-from util.basic_auth import auth
+from .util import connect_db, create_image, create_message
+from .util.basic_auth import auth
 from datetime import datetime, timedelta
 from linebot import LineBotApi
 from linebot.models import FlexSendMessage
@@ -52,6 +52,7 @@ def announce():
 
     conn = connect_db.connect_db()
     try:
+        sent = 0
         while True:
             cursor = conn.cursor()
             cursor.execute(get_practice_query)
@@ -60,13 +61,14 @@ def announce():
                 break
             id = res[0]
             cursor.execute(announce_query, (id,))
-            conn.commit()
             alt_title = '練習会 参加調査'
             title = '【練習会 参加調査】'
             content = '明日は練習会です。\n参加できる方はこのメッセージに\nリアクションをお願いします！'
             img_name = create_image.create_image(res)
             post_to_line(alt_title, title, content, img_name)
-        data = {'message': 'success'}
+            sent += 1
+            conn.commit()
+        data = {'message': 'success', 'sent': sent}
         return jsonify(data), 200
 
 

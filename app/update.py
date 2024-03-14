@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, redirect, url_for
 from psycopg2 import Error
-from util import connect_db
+from .util import connect_db
 from datetime import datetime
 
 bp = Blueprint('update', __name__)

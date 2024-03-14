@@ -8,7 +8,7 @@ from .delete import bp as delete_bp
 from .update import bp as update_bp
 from .announce import bp as announce_bp
 from .help import bp as help_bp
-from util import connect_db
+from .util import connect_db
 
 def create_app():
     app = Flask(__name__)

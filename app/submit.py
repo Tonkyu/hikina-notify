@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify, redirect, url_for
 from psycopg2 import Error
-from util import connect_db
 from datetime import datetime
-from util.basic_auth import auth
+from .util import connect_db
+from .util.basic_auth import auth
 
 
 bp = Blueprint('submit', __name__)

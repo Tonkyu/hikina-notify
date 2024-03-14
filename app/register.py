@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from util.basic_auth import auth
+from .util.basic_auth import auth
 
 bp = Blueprint('register', __name__)
 
