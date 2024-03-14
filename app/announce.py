@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request, abort
 from dotenv import load_dotenv
 import os
 from psycopg2 import Error
@@ -8,11 +8,19 @@ from datetime import datetime, timedelta
 from linebot import LineBotApi
 from linebot.models import FlexSendMessage
 
+
+def from_self_only(f):
+    def decorated_function(*args, **kwargs):
+        client_ip = request.remote_addr
+        if client_ip != '127.0.0.1':
+            abort(403)
+        return f(*args, **kwargs)
+    return decorated_function
+
 bp = Blueprint('announce', __name__)
 
-
-@bp.route('/announce', methods=['POST'])
-@auth.login_required
+@bp.route('/announce')
+@from_self_only
 def announce():
     load_dotenv()
     ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
@@ -61,7 +69,7 @@ def announce():
 
 
     except (Exception, Error) as error:
-        print("error occurred in /announce(POST):", error)
+        print("error occurred in /announce:", error)
         data = {'message': 'failed'}
         return jsonify(data), 503
 

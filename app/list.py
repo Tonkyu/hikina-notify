@@ -20,11 +20,11 @@ def get_data(show_past_bool):
         today = datetime.now().date()
         query = f'''
             SELECT * FROM practices
-            ORDER BY start_datetime
+            ORDER BY start_datetime;
         ''' if show_past_bool else f'''
             SELECT * FROM practices
             WHERE start_datetime >= '{today}'
-            ORDER BY start_datetime
+            ORDER BY start_datetime;
         '''
         cursor.execute(query)
         data = cursor.fetchall()
@@ -35,7 +35,7 @@ def get_data(show_past_bool):
             format_time(element[1]),
             format_time(element[2]),
             element[3],
-            element[5],
+            element[4],
         ) for element in data]
         return res
 
@@ -54,5 +54,5 @@ def list():
     show_past = request.args.get('show_past', default='false')
     show_past_bool = show_past != 'false'
     data = get_data(show_past_bool)
-    data_with_id = [(id, row) for id, row in enumerate(data)]
+    data_with_id = [(id, row) for id, row in enumerate(data)] if data else []
     return render_template('list.html', data=data_with_id, active_menu='list', show_past=show_past)

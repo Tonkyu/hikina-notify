@@ -1,7 +1,6 @@
 from flask import Flask
 
 from .register import bp as register_bp
-from .get_image import bp as get_image_bp
 from .list import bp as list_bp
 from .submit import bp as submit_bp
 from .edit import bp as edit_bp
@@ -16,7 +15,6 @@ def create_app():
     app.static_folder = '../static'
 
     app.register_blueprint(register_bp)
-    app.register_blueprint(get_image_bp)
     app.register_blueprint(list_bp)
     app.register_blueprint(submit_bp)
     app.register_blueprint(edit_bp)
