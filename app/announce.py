@@ -11,9 +11,9 @@ from linebot.models import FlexSendMessage
 
 def from_self_only(f):
     def decorated_function(*args, **kwargs):
-        client_ip = request.remote_addr
         load_dotenv()
-        if client_ip != os.environ['CRON_IP']:
+        token = request.headers.get('Authorization', '').split(' ')[-1]
+        if token != os.environ['CRON_TOKEN']:
             abort(403)
         return f(*args, **kwargs)
     return decorated_function
