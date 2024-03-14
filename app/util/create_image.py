@@ -49,7 +49,7 @@ def create_image(data):
 
     # The text to be drawn
     month_day_text = f"{month}/{day}"
-    time_text = f"{start_hour}:{start_minute} - ({end_hour}:{end_minute})"
+    time_text = f"{start_hour}:{start_minute} - {end_hour}:{end_minute}"
     title_text = "対面練習　参加調査"
     location_text = "@" + location
 
