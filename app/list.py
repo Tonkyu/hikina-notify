@@ -35,7 +35,7 @@ def get_data(show_past_bool):
             format_time(element[1]),
             format_time(element[2]),
             element[3],
-            element[4],
+            element[5],
         ) for element in data]
         return res
 
