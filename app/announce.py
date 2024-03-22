@@ -39,7 +39,7 @@ def announce():
 
     today = datetime.now().date()
     tomorrow = today + timedelta(days=2) # UTC22:00から見た、JSTの翌日を取りたいので、days=2
-    two_days_after = today + timedelta(days=2)
+    two_days_after = today + timedelta(days=3)
     get_practice_query = f'''
         SELECT * FROM practices
         WHERE '{tomorrow}' <= start_datetime AND start_datetime < '{two_days_after}' AND NOT has_announced;
