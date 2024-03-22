@@ -19,24 +19,26 @@ def get_data(show_past_bool):
         cursor = conn.cursor()
         today = datetime.now().date()
         query = f'''
-            SELECT * FROM practices
+            SELECT id, start_datetime, end_datetime, location, comment, created_by, has_announced FROM practices
             ORDER BY start_datetime;
         ''' if show_past_bool else f'''
-            SELECT * FROM practices
+            SELECT id, start_datetime, end_datetime, location, comment, created_by, has_announced FROM practices
             WHERE start_datetime >= '{today}'
             ORDER BY start_datetime;
         '''
         cursor.execute(query)
         data = cursor.fetchall()
         conn.close()
-        res = [(
-            element[0],
-            format_date(element[1]),
-            format_time(element[1]),
-            format_time(element[2]),
-            element[3],
-            element[5],
-        ) for element in data]
+        res = [{
+            'id': element[0],
+            'date': format_date(element[1]),
+            'start_time': format_time(element[1]),
+            'end_time': format_time(element[2]),
+            'location': element[3],
+            'comment': element[4],
+            'created_by': element[5],
+            'has_announced': element[6]
+        } for element in data]
         return res
 
     except (Exception, Error) as error:
@@ -54,5 +56,4 @@ def list():
     show_past = request.args.get('show_past', default='false')
     show_past_bool = show_past != 'false'
     data = get_data(show_past_bool)
-    data_with_id = [(id, row) for id, row in enumerate(data)] if data else []
-    return render_template('list.html', data=data_with_id, active_menu='list', show_past=show_past)
+    return render_template('list.html', data=data, active_menu='list', show_past=show_past)

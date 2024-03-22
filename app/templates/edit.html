@@ -6,10 +6,10 @@
     <h1 class="text-center">日程編集</h1>
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form id="event-form" action="/update/{{ data[0] }}" method="post" onsubmit="return validateForm()">
+            <form id="event-form" action="/update/{{ data.id }}" method="post" onsubmit="return validateForm()">
                 <div class="form-group">
                     <label for="date">日付:</label><br>
-                    <input type="date" id="date" name="date" class="form-control" required value="{{ data[1] }}">
+                    <input type="date" id="date" name="date" class="form-control" required value="{{ data.date }}">
                 </div>
                 <div class="form-group">
                     <label>開始時間:</label><br>
@@ -17,7 +17,7 @@
                         <div class="col">
                             <select id="start_hour" name="start_hour" class="form-control">
                                 {% for hour in range(0, 24) %}
-                                    <option value="{{ hour }}" {% if hour == data[2] %} selected {% endif %}>{{ hour }}</option>
+                                    <option value="{{ hour }}" {% if hour == data.start_time.hour %} selected {% endif %}>{{ hour }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -25,7 +25,7 @@
                         <div class="col">
                             <select id="start_minute" name="start_minute" class="form-control">
                                 {% for minute in range(0, 60, 5) %}
-                                    <option value="{{ minute }}"  {% if minute == data[3] %} selected {% endif %}>{{ minute }}</option>
+                                    <option value="{{ minute }}"  {% if minute == data.start_time.minute %} selected {% endif %}>{{ minute }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -37,7 +37,7 @@
                         <div class="col">
                             <select id="end_hour" name="end_hour" class="form-control">
                                 {% for hour in range(0, 24) %}
-                                    <option value="{{ hour }}" {% if hour == data[4] %} selected {% endif %}>{{ hour }}</option>
+                                    <option value="{{ hour }}" {% if hour == data.end_time.hour %} selected {% endif %}>{{ hour }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -45,7 +45,7 @@
                         <div class="col">
                             <select id="end_minute" name="end_minute" class="form-control">
                                 {% for minute in range(0, 60, 5) %}
-                                    <option value="{{ minute }}" {% if minute == data[5] %} selected {% endif %}">{{ minute }}</option>
+                                    <option value="{{ minute }}" {% if minute == data.end_time.minute %} selected {% endif %}">{{ minute }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -53,7 +53,15 @@
                 </div>
                 <div class="form-group">
                     <label for="location">場所:</label><br>
-                    <input type="text" id="location" name="location" class="form-control" value="{{ data[6] }}">
+                    <input type="text" id="location" name="location" class="form-control" value="{{ data.location }}">
+                </div>
+                <div class="form-group">
+                    <label for="comment">コメント:</label><br>
+                    <textarea id="comment" name="comment" class="form-control" rows="5">{{ data.comment }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="created_by">作成者:</label><br>
+                    <input type="text" id="created_by" name="created_by" class="form-control" value="{{ data.created_by }}">
                 </div>
                 <div class="row">
                     <div class="col">
@@ -106,7 +114,7 @@
 
     function deleteForm() {
         if (confirm("練習日程を削除します。よろしいですか？")) {
-            fetch('/delete/{{ data[0] }}', {
+            fetch('/delete/{{ data.id }}', {
                 method: 'POST'
             })
             .then(response => {

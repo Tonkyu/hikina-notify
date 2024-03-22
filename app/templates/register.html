@@ -55,6 +55,14 @@
                     <label for="location">場所:</label><br>
                     <input type="text" id="location" name="location" class="form-control">
                 </div>
+                <div class="form-group">
+                    <label for="comment">コメント:</label><br>
+                    <textarea id="comment" name="comment" class="form-control" rows="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="created_by">作成者:</label><br>
+                    <input type="text" id="created_by" name="created_by" class="form-control">
+                </div>
                 <div class="form-group text-center">
                     <button type="button" class="btn btn-primary" onclick="submitForm()">登録</button>
                 </div>
@@ -71,6 +79,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
 <script>
+    const DEFAULT_COMMENT = "明日は練習会です。\n参加できる方はこのメッセージに\nリアクションをお願いします!"
+    document.getElementById("comment").value = DEFAULT_COMMENT;
     document.addEventListener("DOMContentLoaded", function() {
         const today = new Date();
         const year = today.getFullYear();

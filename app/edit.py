@@ -19,18 +19,18 @@ def get_data_by_id(id):
     conn = connect_db.connect_db()
     try:
         cursor = conn.cursor()
-        query = f'SELECT * FROM practices where id={id}'
+        query = f'SELECT id, start_datetime, end_datetime, location, comment, created_by FROM practices where id={id}'
         cursor.execute(query)
         data = cursor.fetchone()
-        res = (
-            data[0],
-            format_date(data[1]),
-            int_hour(data[1]),
-            int_minute(data[1]),
-            int_hour(data[2]),
-            int_minute(data[2]),
-            data[3]
-            )
+        res = {
+            'id': data[0],
+            'date': format_date(data[1]),
+            'start_time': data[1],
+            'end_time': data[2],
+            'location': data[3],
+            'comment': data[4],
+            'created_by': data[5]
+        }
         return res
 
     except (Exception, Error) as error:

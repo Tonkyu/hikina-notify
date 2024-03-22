@@ -17,19 +17,21 @@ def submit():
         end_hour = request.form['end_hour']
         end_minute = request.form['end_minute']
         location = request.form['location']
+        comment = request.form['comment']
+        created_by = request.form['created_by']
 
         start_datetime = datetime.strptime(f"{date} {start_hour}:{start_minute}", "%Y-%m-%d %H:%M")
         end_datetime = datetime.strptime(f"{date} {end_hour}:{end_minute}", "%Y-%m-%d %H:%M")
 
         insert_query = '''
-            INSERT INTO practices (start_datetime, end_datetime, location)
-            VALUES (%s, %s, %s);
+            INSERT INTO practices (start_datetime, end_datetime, location, comment, created_by)
+            VALUES (%s, %s, %s, %s, %s);
         '''
 
         conn = connect_db.connect_db()
         try:
             cursor = conn.cursor()
-            cursor.execute(insert_query, (start_datetime, end_datetime, location))
+            cursor.execute(insert_query, (start_datetime, end_datetime, location, comment, created_by))
             conn.commit()
             return redirect(url_for('list.list'))
 

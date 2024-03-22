@@ -42,19 +42,19 @@
                 </tr>
             </thead>
             <tbody>
-                {% for id, row in data %}
-                <tr class="{{ 'highlight' if row[5] else 'even' if id%2==0 else '' }}">
-                        <td>{{ row[1] }}</td>
-                        <td>{{ row[2] }} ~ {{ row[3] }}</td>
-                        <td>{{ row[4] }}</td>
+                {% for row in data %}
+                <tr class="{{ 'highlight' if row.has_announced else 'even' if row.id%2==0 else '' }}">
+                        <td>{{ row.date }}</td>
+                        <td>{{ row.start_time }} ~ {{ row.end_time }}</td>
+                        <td>{{ row.location }}</td>
                         <td>
-                            {% if row[5] %}
+                            {% if row.has_announced %}
                                 済
                             {% else %}
                                 未
                             {% endif %}
                         </td>
-                        <td><a href="{{ url_for('edit.edit', id=row[0]) }}"><u>編集</u></a></td>
+                        <td><a href="{{ url_for('edit.edit', id=row.id) }}"><u>編集</u></a></td>
                     </tr>
                 {% endfor %}
             </tbody>

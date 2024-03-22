@@ -14,20 +14,22 @@ def update(id):
         end_hour = request.form['end_hour']
         end_minute = request.form['end_minute']
         location = request.form['location']
+        created_by = request.form['created_by']
+        comment = request.form['comment']
 
         start_datetime = datetime.strptime(f"{date} {start_hour}:{start_minute}", "%Y-%m-%d %H:%M")
         end_datetime = datetime.strptime(f"{date} {end_hour}:{end_minute}", "%Y-%m-%d %H:%M")
 
         update_query = '''
             UPDATE practices
-            SET start_datetime=%s, end_datetime=%s, location=%s
+            SET start_datetime=%s, end_datetime=%s, location=%s, comment=%s, created_by=%s
             WHERE id=%s;
         '''
 
         conn = connect_db.connect_db()
         try:
             cursor = conn.cursor()
-            cursor.execute(update_query, (start_datetime, end_datetime, location, id))
+            cursor.execute(update_query, (start_datetime, end_datetime, location, comment, created_by, id))
             conn.commit()
             return redirect(url_for('list.list'))
 

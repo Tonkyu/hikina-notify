@@ -41,7 +41,7 @@ def announce():
     tomorrow = today + timedelta(days=2) # UTC22:00から見た、JSTの翌日を取りたいので、days=2
     two_days_after = today + timedelta(days=3)
     get_practice_query = f'''
-        SELECT * FROM practices
+        SELECT id, start_datetime, end_datetime, location, comment, created_by FROM practices
         WHERE '{tomorrow}' <= start_datetime AND start_datetime < '{two_days_after}' AND NOT has_announced;
     '''
     announce_query = '''
@@ -56,16 +56,22 @@ def announce():
         while True:
             cursor = conn.cursor()
             cursor.execute(get_practice_query)
-            res = cursor.fetchone()
-            if res == None:
+            data = cursor.fetchone()
+            if data == None:
                 break
-            id = res[0]
-            cursor.execute(announce_query, (id,))
+            res = {
+                'id': data[0],
+                'start_datetime': data[1],
+                'end_datetime': data[2],
+                'location': data[3],
+                'comment': data[4],
+                'created_by': data[5]
+            }
+            cursor.execute(announce_query, (res['id'], ))
             alt_title = '練習会 参加調査'
-            title = '【練習会 参加調査】'
-            content = '明日は練習会です。\n参加できる方はこのメッセージに\nリアクションをお願いします！'
-            img_name = create_image.create_image(res)
-            post_to_line(alt_title, title, content, img_name)
+            title = '【参加調査 by ' + res['created_by'] + ' 】'
+            img_name = create_image.create_image(res['id'], res['start_datetime'], res['end_datetime'], res['location'])
+            post_to_line(alt_title, title, res['comment'], img_name)
             sent += 1
             conn.commit()
         data = {'message': 'success', 'sent': sent}
