@@ -26,7 +26,7 @@ bp = Blueprint('announce', __name__)
 def announce():
     load_dotenv()
     ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
-    HIKINA_LINE_ID = os.environ['TONQ_GROUP_ID']
+    HIKINA_LINE_ID = os.environ['HIKINA_GROUP_ID_2024']
     line_bot_api = LineBotApi(ACCESS_TOKEN)
 
     def post_to_line(alt_title, title, content, img_name):
