@@ -67,7 +67,6 @@ def announce():
             img_name = create_image.create_image(res)
             post_to_line(alt_title, title, content, img_name)
             sent += 1
-            # TODO remove image
             conn.commit()
         data = {'message': 'success', 'sent': sent}
         return jsonify(data), 200
