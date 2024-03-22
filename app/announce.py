@@ -38,7 +38,7 @@ def announce():
         )
 
     today = datetime.now().date()
-    tomorrow = today + timedelta(days=1)
+    tomorrow = today + timedelta(days=2) # UTC22:00から見た、JSTの翌日を取りたいので、days=2
     two_days_after = today + timedelta(days=2)
     get_practice_query = f'''
         SELECT * FROM practices
