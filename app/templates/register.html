@@ -6,7 +6,7 @@
     <h1 class="text-center">日程登録</h1>
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form id="event-form" action="/submit" method="post" onsubmit="return validateForm()">
+            <form id="event-form" action="/submit" method="post">
                 <div class="form-group">
                     <label for="date">日付:</label><br>
                     <input type="date" id="date" name="date" class="form-control" required>
@@ -91,6 +91,30 @@
     });
 
     function validateForm() {
+        return validateDate() && validateEmpty();
+    }
+
+    function validateEmpty() {
+        const locationInput = document.getElementById("location");
+        const locationValue = locationInput.value;
+        const commentInput = document.getElementById("comment");
+        const commentValue = commentInput.value;
+        const createdByInput = document.getElementById("created_by");
+        const createdByValue = createdByInput.value;
+        if (!locationValue || locationValue.length === 0) {
+            alert("場所を入力してください");
+            return false;
+        } else if (!commentValue || commentValue.length === 0) {
+            alert("コメントを入力してください");
+            return false;
+        } else if (!createdByValue || createdByValue.length === 0) {
+            alert("作成者を入力してください");
+            return false;
+        }
+        return true;
+    }
+
+    function validateDate() {
         const dateInput = document.getElementById("date");
         const dateValue = dateInput.value;
 
@@ -109,6 +133,9 @@
     }
 
     function submitForm() {
+        if (!validateForm()) {
+            return false;
+        }
         event.preventDefault();
         var form = document.getElementById('event-form');
         form.submit();

@@ -89,6 +89,30 @@
 
 <script>
     function validateForm() {
+        return validateDate() && validateEmpty();
+    }
+
+    function validateEmpty() {
+        const locationInput = document.getElementById("location");
+        const locationValue = locationInput.value;
+        const commentInput = document.getElementById("comment");
+        const commentValue = commentInput.value;
+        const createdByInput = document.getElementById("created_by");
+        const createdByValue = createdByInput.value;
+        if (!locationValue || locationValue.length === 0) {
+            alert("場所を入力してください");
+            return false;
+        } else if (!commentValue || commentValue.length === 0) {
+            alert("コメントを入力してください");
+            return false;
+        } else if (!createdByValue || createdByValue.length === 0) {
+            alert("作成者を入力してください");
+            return false;
+        }
+        return true;
+    }
+
+    function validateDate() {
         const dateInput = document.getElementById("date");
         const dateValue = dateInput.value;
 
@@ -107,6 +131,9 @@
     }
 
     function updateForm() {
+        if (!validateForm()) {
+            return false;
+        }
         event.preventDefault();
         var form = document.getElementById('event-form');
         form.submit();
